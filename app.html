@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grok Organizer — Kitchen</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 20px; line-height: 1.5; }
+    h1 { font-size: 1.5rem; }
+    textarea { width: 100%; min-height: 120px; padding: 10px; font-size: 1rem; box-sizing: border-box; }
+    button { margin-top: 10px; padding: 10px 16px; font-size: 1rem; cursor: pointer; }
+    #advice { margin-top: 20px; white-space: pre-wrap; background: #f6f6f6; padding: 16px; border-radius: 8px; }
+    .hint { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Kitchen Organizer</h1>
+  <p class="hint">Describe your kitchen — size, clutter, missing storage, pain points. Then tap Get advice.</p>
+  <textarea id="problem" placeholder="Example: small kitchen, no pantry, cluttered bench, no deep cabinets"></textarea>
+  <button onclick="getAdvice()">Get advice</button>
+  <div id="advice"></div>
+
+  <script>
+    const knowledge = {
+      principles: `# Kitchen Organizing Principles
+
+## Core Rules
+- zone
+- declutter
+- one-in-one-out
+- vertical space
+- surfaces
+- maintenance
+
+## Zones
+- work
+- storage
+- landing
+- maintenance
+
+## Summary
+Each room type has its own set of constraints and recommended products.
+`,
+      failurePoints: `# Kitchen Failure Points
+
+## Common Mistakes
+- overstuffing
+- clutter
+- ignoring
+- mixing
+- blocking
+
+## Fixes
+Fix each mistake with a matching rule from the principles file.
+`,
+      products: `# Kitchen Storage Products
+
+## Cabinets
+- deep
+- wide
+- adjustable
+- shelves
+
+## Pantry
+- pull-out
+- baskets
+- lazy susan
+
+## Closet
+- double
+- rod
+- shelf
+
+## Notes
+All dimensions are in centimetres.
+`
+    };
+
+    function getAdvice() {
+      const text = document.getElementById('problem').value.toLowerCase();
+      const out = [];
+
+      if (text.includes('small') || text.includes('tiny') || text.includes('no space')) {
+        out.push('Use vertical space: add adjustable shelves and a double rod where possible.');
+      }
+      if (text.includes('pantry') || text.includes('no pantry')) {
+        out.push('Add a pull-out pantry with baskets and a lazy susan for corners.');
+      }
+      if (text.includes('clutter') || text.includes('cluttered') || text.includes('bench') || text.includes('counter')) {
+        out.push('Declutter surfaces first. Apply one-in-one-out so clutter does not return.');
+      }
+      if (text.includes('cabinet') || text.includes('storage') || text.includes('deep')) {
+        out.push('Choose deep, wide cabinets with adjustable shelves to fit your items.');
+      }
+      if (text.includes('zone') || text.includes('workflow') || text.includes('work')) {
+        out.push('Set up clear zones: work, storage, landing, and maintenance.');
+      }
+      if (out.length === 0) {
+        out.push('Describe the problem more — size, missing storage, or clutter — and I will match it to the rules and products.');
+      }
+
+      document.getElementById('advice').textContent = out.join('\n\n');
+    }
+  </script>
+</body>
+</html>
