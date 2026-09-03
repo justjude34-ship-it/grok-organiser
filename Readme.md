@@ -1,10 +1,7 @@
-#grok organiser
-an AI professional home organiser
+# Grok Organiser with Ora
 
-- /kitchen- organising principles, failure points, product specs
-- /schema
-- /real storge products with dimensions
+Live: https://grok-organiser.vercel.app/
 
+A calm professional-organiser companion. One surface. One step. Buy once, own forever.
 
-## status
-seed phase: kitchen knowledge base first
+Open the URL on your phone → Chrome menu → Add to Home screen.
