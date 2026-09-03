@@ -3,105 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#3d6b4f">
   <title>Kitchen Organiser</title>
   <style>
     * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      max-width: 100%;
-      overflow-x: hidden;
-    }
+    html, body { margin: 0; padding: 0; max-width: 100%; overflow-x: hidden; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: #f6f1e8;
+      background: #f4efe6;
       color: #2c241b;
-      line-height: 1.55;
-      padding: 20px 16px 40px;
+      line-height: 1.5;
+      padding: 20px 16px 48px;
     }
-    main {
-      width: 100%;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    h1 {
-      font-size: 1.7rem;
-      margin: 8px 0 10px;
-      line-height: 1.2;
-      overflow-wrap: anywhere;
-    }
-    .hint {
-      color: #5b5146;
-      font-size: 1.05rem;
-      margin: 0 0 16px;
-      overflow-wrap: break-word;
-    }
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 0 0 14px;
-    }
+    main { width: 100%; max-width: 640px; margin: 0 auto; }
+    .eyebrow { color: #3d6b4f; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 6px; }
+    h1 { font-size: 1.85rem; margin: 0 0 10px; line-height: 1.2; }
+    .hint { color: #5b5146; font-size: 1.08rem; margin: 0 0 16px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
     .chip {
-      border: 1px solid #c9bba8;
-      background: #fff;
-      color: #3a3229;
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 0.95rem;
-      cursor: pointer;
+      border: 1px solid #c9bba8; background: #fff; color: #3a3229;
+      border-radius: 999px; padding: 10px 14px; font-size: 1rem; cursor: pointer;
     }
+    .chip.active { background: #3d6b4f; color: #fff; border-color: #3d6b4f; }
     textarea {
-      width: 100%;
-      min-height: 140px;
-      padding: 12px;
-      font-size: 1.05rem;
-      line-height: 1.4;
-      border: 1px solid #c9bba8;
-      border-radius: 12px;
-      background: #fff;
-      color: #2c241b;
-      resize: vertical;
+      width: 100%; min-height: 130px; padding: 14px; font-size: 1.08rem;
+      border: 1px solid #c9bba8; border-radius: 14px; background: #fff; color: #2c241b;
     }
     button.primary {
-      display: block;
-      width: 100%;
-      margin-top: 12px;
-      padding: 14px 16px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: 0;
-      border-radius: 12px;
-      background: #3d6b4f;
-      color: #fff;
-      cursor: pointer;
+      display: block; width: 100%; margin-top: 12px; padding: 16px;
+      font-size: 1.15rem; font-weight: 700; border: 0; border-radius: 14px;
+      background: #3d6b4f; color: #fff;
     }
-    button.primary:active { background: #2f5440; }
-    #advice {
-      margin-top: 18px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      overflow-wrap: break-word;
-    }
-    .card strong {
-      display: block;
-      margin-bottom: 4px;
-      color: #3d6b4f;
-    }
-    .empty {
-      color: #6b6258;
-      font-size: 0.98rem;
-    }
+    .card { background: #fff; border-radius: 14px; padding: 16px; margin: 12px 0 0; }
+    .card strong { display: block; margin-bottom: 6px; color: #3d6b4f; font-size: 1.08rem; }
+    .card p { margin: 0 0 8px; }
+    .card p:last-child { margin: 0; }
   </style>
 </head>
 <body>
   <main>
+    <p class="eyebrow">Professional organiser</p>
     <h1>Kitchen Organiser</h1>
-    <p class="hint">Type what is hard about your kitchen. Then tap Get advice.</p>
+    <p class="hint">Tell me what is hard. I will give the next useful step, not a lecture.</p>
     <div class="chips">
       <button type="button" class="chip" data-text="small kitchen, no pantry">small, no pantry</button>
       <button type="button" class="chip" data-text="cluttered bench">cluttered bench</button>
@@ -118,36 +61,33 @@
         var box = document.getElementById("problem");
         var extra = chip.getAttribute("data-text");
         box.value = box.value ? box.value + ", " + extra : extra;
+        chip.classList.add("active");
         box.focus();
       });
     });
-
+    function card(title, body) {
+      return "<div class=\"card\"><strong>" + title + "</strong>" + body + "</div>";
+    }
     function getAdvice() {
-      var text = document.getElementById("problem").value.toLowerCase();
-      var out = [];
-
+      var text = (document.getElementById("problem").value || "").toLowerCase();
+      var html = "";
       if (text.includes("small") || text.includes("tiny") || text.includes("no space")) {
-        out.push(["Small space", "Use vertical space first. Add adjustable shelves so every centimetre of height works."]);
+        html += card("Start with height, not more stuff", "<p>In a small kitchen, the floor is already full. Use the wall and the unused space above the fridge or bench first.</p><p>Put everyday items at eye level. Park rarely used things up high.</p>");
       }
       if (text.includes("pantry") || text.includes("no pantry")) {
-        out.push(["No pantry", "Use a pull-out pantry, baskets, and a lazy susan in the corner so food is not lost at the back."]);
+        html += card("No pantry? Make a pull-out one", "<p>A narrow pull-out rack, baskets, or a lazy susan in a corner cabinet beats stacking tins at the back.</p><p>Keep breakfast in one basket, baking in another, so you are not hunting.</p>");
       }
-      if (text.includes("clutter") || text.includes("cluttered") || text.includes("bench") || text.includes("counter") || text.includes("stuff")) {
-        out.push(["Cluttered surfaces", "Clear the bench first. Keep only daily tools out. Use one-in-one-out so clutter does not creep back."]);
+      if (text.includes("clutter") || text.includes("cluttered") || text.includes("bench") || text.includes("counter")) {
+        html += card("Clear the bench first", "<p>A bench is a landing strip, not storage. Keep only the kettle and one daily tool out.</p><p>Use one-in-one-out: something new comes in, something unused goes out.</p>");
       }
-      if (text.includes("cabinet") || text.includes("storage") || text.includes("deep") || text.includes("reach")) {
-        out.push(["Cabinets", "Choose deep, wide cabinets with adjustable shelves. Put everyday items at the front, not the back."]);
+      if (text.includes("cabinet") || text.includes("deep") || text.includes("reach") || text.includes("storage")) {
+        html += card("Stop losing things at the back", "<p>Deep cabinets fail because the back becomes a graveyard. Add a pull-out tray or turntable.</p><p>Everyday items at the front. Bulk and spare at the back or up high.</p>");
       }
-      if (text.includes("zone") || text.includes("workflow") || text.includes("work")) {
-        out.push(["Zones", "Give the kitchen four jobs: work, storage, landing, and maintenance. Keep like with like."]);
+      if (text.includes("zone") || text.includes("stuff") || text.includes("too much")) {
+        html += card("Give the kitchen four jobs", "<p>Work, storage, landing, and maintenance. Like stays with like: mugs with mugs, food with food.</p><p>If it has no home, it will live on the bench again tomorrow.</p>");
       }
-      if (out.length === 0) {
-        out.push(["Need a bit more", "Say if it is small, missing a pantry, cluttered, or hard to reach. I will match that to the rules and products."]);
-      }
-
-      var html = "";
-      for (var i = 0; i < out.length; i++) {
-        html += "<div class=\"card\"><strong>" + out[i][0] + "</strong>" + out[i][1] + "</div>";
+      if (!html) {
+        html = card("Need one more detail", "<p>Say if it is small, missing a pantry, cluttered, or hard to reach. I will match that to the next step.</p>");
       }
       document.getElementById("advice").innerHTML = html;
     }
